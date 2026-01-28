@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     admin_ids: list[int] = []
 
     db_host: str = "localhost"
-    db_port: int = 5433
+    db_port: int = 5432
     db_user: str = "household"
     db_password: str = "secret"
     db_name: str = "household"
