@@ -54,6 +54,7 @@ async def cmd_help(message: Message):
     await message.answer(
         "Доступные команды:\n\n"
         "/add_donor ФАМИЛИЯ - добавить донора\n"
+        "/add_many ФАМИЛИИ - добавить несколько доноров\n"
         "/remove_donor ФАМИЛИЯ - удалить донора\n"
         "/donors - список всех доноров\n\n"
         "/paid МЕСЯЦ [ГОД] - кто оплатил\n"

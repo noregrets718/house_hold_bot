@@ -44,6 +44,22 @@ async def add_donor(last_name: str) -> bool:
         return False
 
 
+async def add_donors_many(last_names: list[str]) -> tuple[list[str], list[str]]:
+    """Add multiple donors. Returns (added, already_existed) lists."""
+    added = []
+    existed = []
+    for last_name in last_names:
+        try:
+            await pool.execute(
+                "INSERT INTO donors (last_name) VALUES ($1)",
+                last_name
+            )
+            added.append(last_name)
+        except asyncpg.UniqueViolationError:
+            existed.append(last_name)
+    return added, existed
+
+
 async def remove_donor(last_name: str) -> bool:
     """Remove donor by last name. Returns True if removed."""
     result = await pool.execute(

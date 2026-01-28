@@ -27,6 +27,29 @@ async def cmd_add_donor(message: Message, command: CommandObject):
         await message.answer(f"Донор {last_name} уже существует.")
 
 
+@router.message(Command("add_many"))
+async def cmd_add_many(message: Message, command: CommandObject):
+    """Add multiple donors at once."""
+    if not command.args:
+        await message.answer("Использование: /add_many ФАМИЛИЯ1 ФАМИЛИЯ2 ФАМИЛИЯ3 ...")
+        return
+
+    last_names = command.args.split()
+    if not last_names:
+        await message.answer("Укажите фамилии доноров через пробел.")
+        return
+
+    added, existed = await db.add_donors_many(last_names)
+
+    lines = []
+    if added:
+        lines.append(f"Добавлены: {', '.join(added)}")
+    if existed:
+        lines.append(f"Уже существуют: {', '.join(existed)}")
+
+    await message.answer("\n".join(lines) if lines else "Ничего не добавлено.")
+
+
 @router.message(Command("remove_donor"))
 async def cmd_remove_donor(message: Message, command: CommandObject):
     """Remove a donor."""
